@@ -11,7 +11,8 @@ export default async function Home() {
     <div>
       {data ? (
         <div>
-          ログイン済み <Link href='/post/newPost'>新規投稿</Link>
+          ログイン済み <Link href='/post/newPost'>新規投稿</Link>      <Link href='/map'>地図</Link>
+
         </div>
       ) : (
         <div>未ログイン <Link href='/login' className="text-blue-300">ログインページへ</Link></div>

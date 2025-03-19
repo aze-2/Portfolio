@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '../../../utils/supabase/server'
+import Link from 'next/link'
 
 
 export default async function PrivatePage() {
@@ -10,5 +11,11 @@ export default async function PrivatePage() {
     redirect('/login')
   }
 
-  return <p>Hello {data.user.email}</p>
+  return (
+    <div>
+      <p>Hello {data.user.email}</p>
+      <Link href='/post/newPost'>新規投稿</Link>
+      <Link href='/map'>地図</Link>
+    </div>
+  )
 }

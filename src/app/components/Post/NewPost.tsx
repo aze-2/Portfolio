@@ -1,16 +1,33 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent, useCallback, useState, useRef, useEffect } from 'react'
 import useStore from '../../../../store'
+import { PlaceInfoType } from '@/app/map/page'
 
-const NewPost = ({ serverUser }) => {
+// export const handlePlaceInfo = (info: PlaceInfoType, setPlaceInfo: (info: PlaceInfoType) => void) => {
+//     setPlaceInfo(info); // 親コンポーネントのstate更新
+// }
+
+type NewPostProps = {
+    placeInfo?: PlaceInfoType;
+    serverUser: any; // 既存の `serverUser` を維持
+  };
+
+const NewPost = ({ placeInfo, serverUser }: NewPostProps) => {
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState<File | null>(null)
+    const [placeData, setPlaceData] = useState<PlaceInfoType | null>(null);
+    const [address, setAddress] = useState<string>('');
     const router = useRouter()
     const { user, setUser } = useStore()
     const titleRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLTextAreaElement>(null)
+
+    // const searchParams = useSearchParams();
+    // const initialAddress = searchParams.get("address") || "";
+
+    // const [address, setAddress] = useState<string>(initialAddress);
 
     useEffect(() => {
         if (serverUser) {
@@ -21,6 +38,25 @@ const NewPost = ({ serverUser }) => {
     }, [serverUser, setUser, router])
 
     if (!user) return <div>Loading...</div>
+
+    useEffect(()=> {
+    //     const handleSetPlaceData = (info: PlaceInfoType) => {
+    //         setPlaceData(info);
+    //         const addressField = info.data.find((field: any) => field === 'formatted_address');
+    //         console.log("addressField:", addressField); // デバッグ用
+    //         // setAddress(info.data.find((field: any) => field === 'formatted_address') || '');
+    //     return handleSetPlaceData
+    //   };
+    // },[])
+    // if (placeData) {
+    //     const addressField = placeData.data?.find(field => typeof field === "string") ?? "";
+    //     setAddress(addressField);
+    //   }
+      if (placeInfo && placeInfo.data) {
+        setAddress(placeInfo.data[0] ?? ""); // 最初の要素を住所としてセット
+      }
+    }, [placeInfo]);
+
 
     // 画像のアップロード処理
     const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +125,19 @@ const NewPost = ({ serverUser }) => {
                         required
                     />
                 </div>
+
+                <div className="mb-5">
+                    <div className="text-sm mb-1">住所</div>
+                    <input
+                     className="w-full bg-gray-100 rounded border py-1 px-3 outline-none focus:bg-transparent focus:ring-2 focus:ring-yellow-500"
+                     value={address}
+                     type='text'
+                     id='address'
+                     onChange={(e)=> setAddress(e.target.value)}
+                     placeholder="Address"
+                     required
+                    />
+                </div> 
 
                 <div className="mb-5">
                     <div className="text-sm mb-1">画像</div>
