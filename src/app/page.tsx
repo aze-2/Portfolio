@@ -1,15 +1,18 @@
+'use client'
+
 import Link from "next/link";
-import { createClient } from "../../utils/supabase/server";
+import { useContext } from "react";
+import { AuthContext } from "./supabase-AuthProvider";
 
-export default async function Home() {
-  const supabase = await createClient()
-  const { data, error } = await supabase.auth.getUser()
-
-  console.log(data)
+export default function Home({ userState }: { userState: any }) {
+  // const supabase = await createClient()
+  // const { data } = await supabase.auth.getUser()
+  console.log("userState:", userState); // 確認用ログ
+  const { user } = useContext(AuthContext);
 
   return (
     <div>
-      {data ? (
+      {user ? (
         <div>
           ログイン済み <Link href='/post/newPost'>新規投稿</Link>      <Link href='/map'>地図</Link>
 

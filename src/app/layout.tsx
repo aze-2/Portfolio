@@ -24,15 +24,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-      const userData = await getUser()
-      console.log(userData)
+      const { user, profile } = await getUser()
+      console.log(user, profile)
   
   return (
     <html lang="ja">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider serverData={userData}>
+        <AuthProvider user={user} profile={profile}>
           {children}
         </AuthProvider>
       </body>

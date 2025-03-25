@@ -5,6 +5,7 @@ import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import NewPost from "../components/Post/NewPost";
+import NewPostButtonFromMap from "../components/Map/NewPostButton-fromMap";
 
 //場所情報の型
 export type PlaceInfoType = {
@@ -17,13 +18,20 @@ type GetMapProps = {
   onPlaceInfoSet  : (info: PlaceInfoType) => void;
 }
 
-export const GetMap = ({ onPlaceInfoSet  }: GetMapProps) => {
+export const GetMap = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [markers, setMarkers] = useState<google.maps.marker.AdvancedMarkerElement[]>([]);
   // const [position, setPosition] = useState({ lat: 33.59034972070306,  lng: 130.4017486470046 });
   const [lat, setLat] = useState<number>(33.59034972070306)
   const [lng, setLng] = useState<number>(130.4017486470046)
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow | null>(null)
+  const [ placeInfo, setPlaceInfo ] = useState<PlaceInfoType>(
+    {
+      Id: '',
+      data: [],
+    }
+    )
+
   const mapElement = useRef<HTMLDivElement>(null);
   const position = {lat: lat, lng: lng}
   const router = useRouter();
@@ -71,6 +79,8 @@ export const GetMap = ({ onPlaceInfoSet  }: GetMapProps) => {
         `);
         newInfoWindow.open(newMap, marker);
       });
+
+    
     }
 
   })();
@@ -150,10 +160,12 @@ export const GetMap = ({ onPlaceInfoSet  }: GetMapProps) => {
                       //   Id: place.place_id,
                       //   data: request.fields,
                       //   }
+                          
+                      const onPlaceInfoSet = (info: PlaceInfoType) => {
+                        setPlaceInfo(info); // 状態更新
+        };
+
                       onPlaceInfoSet({ Id: place.place_id ?? null, data: placeDetails.formatted_address ? [placeDetails.formatted_address] : null });
-                      
-                      // 投稿ページに遷移しつつ、住所をクエリとして渡す
-                      // router.push(`/post/newPost?address=${encodeURIComponent(placeDetails.formatted_address ?? "")}`);
                     }
                   });
                 });
@@ -196,7 +208,8 @@ export const GetMap = ({ onPlaceInfoSet  }: GetMapProps) => {
         <input type="text" name="address" className="mr-2" />
         <button className="px-2 rounded-full bg-green-200 hover:bg-green-300">検索</button>
       </form>
-      <Link href='/post/newPost'>新規投稿</Link>
+      {/* <Link href='/post/newPost'>新規投稿</Link> */}
+      <NewPostButtonFromMap placeInfo={placeInfo} />
     </>
   );
 };
@@ -215,24 +228,24 @@ const render = (status: Status) => {
 };
 
 export default function MyMap() {
-  const [ placeInfo, setPlaceInfo ] = useState<PlaceInfoType>(
-    {
-      Id: '',
-      data: [],
-    }
-    )
+  // const [ placeInfo, setPlaceInfo ] = useState<PlaceInfoType>(
+  //   {
+  //     Id: '',
+  //     data: [],
+  //   }
+  //   )
 
-    const onPlaceInfoSet = (info: PlaceInfoType) => {
-      setPlaceInfo(info); // 状態更新
-      handlePlaceInfo(info,setPlaceInfo); // Supabase への追加はNewPost
-    };
+  //   const onPlaceInfoSet = (info: PlaceInfoType) => {
+  //     setPlaceInfo(info); // 状態更新
+  //     // handlePlaceInfo(info,setPlaceInfo); // Supabase への追加はNewPost
+  //   };
 
   return (
     <>
     <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
      render={render} />
-     <GetMap onPlaceInfoSet={onPlaceInfoSet} />
-     <NewPost placeInfo={placeInfo} />; // Supabase への追加はNewPost
+     <GetMap />
+     {/* <NewPost placeInfo={placeInfo} />; // Supabase への追加はNewPost */}
     </>
   );
 }

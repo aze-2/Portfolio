@@ -14,13 +14,13 @@ type NewPostProps = {
     serverUser: any; // 既存の `serverUser` を維持
   };
 
-const NewPost = ({ placeInfo, serverUser }: NewPostProps) => {
+const NewPost = ({ placeInfo }: NewPostProps) => {
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState<File | null>(null)
     const [placeData, setPlaceData] = useState<PlaceInfoType | null>(null);
     const [address, setAddress] = useState<string>('');
     const router = useRouter()
-    const { user, setUser } = useStore()
+    const { profile, setProfile } = useStore()
     const titleRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLTextAreaElement>(null)
 
@@ -29,15 +29,17 @@ const NewPost = ({ placeInfo, serverUser }: NewPostProps) => {
 
     // const [address, setAddress] = useState<string>(initialAddress);
 
-    useEffect(() => {
-        if (serverUser) {
-            setUser(serverUser) // Zustand に user をセット
-        } else {
-            router.push('/login') // 未ログインならログインページへ
-        }
-    }, [serverUser, setUser, router])
+    // useEffect(() => {
+    //     if (serverUser) {
+    //         setUser(serverUser) // Zustand に user をセット
+    //     } else {
+    //         router.push('/login') // 未ログインならログインページへ
+    //     }
+    // }, [serverUser, setUser, router])
 
-    if (!user) return <div>Loading...</div>
+    if (!profile) return <div>Loading...</div>
+
+    const searchParams = useSearchParams();
 
     useEffect(()=> {
     //     const handleSetPlaceData = (info: PlaceInfoType) => {
@@ -52,10 +54,17 @@ const NewPost = ({ placeInfo, serverUser }: NewPostProps) => {
     //     const addressField = placeData.data?.find(field => typeof field === "string") ?? "";
     //     setAddress(addressField);
     //   }
-      if (placeInfo && placeInfo.data) {
-        setAddress(placeInfo.data[0] ?? ""); // 最初の要素を住所としてセット
-      }
-    }, [placeInfo]);
+    const id = searchParams.get("id");
+    const data = searchParams.get("data")/*?.split(",") || []*/;
+
+    // const formattedAddress = data.find(item => item.includes("formatted_address")) ?? "";
+
+    setAddress(data || '')
+    },[]);
+    //   if (placeInfo && placeInfo.data) {
+    //     setAddress(placeInfo.data[0] ?? ""); // 最初の要素を住所としてセット
+    //   }
+    // }, [placeInfo]);
 
 
     // 画像のアップロード処理
@@ -71,7 +80,7 @@ const NewPost = ({ placeInfo, serverUser }: NewPostProps) => {
         e.preventDefault()
         setLoading(true)
 
-        if (!user.id || !image) {
+        if (!profile.id || !image) {
             alert("User ID or image is missing")
             setLoading(false)
             return
@@ -80,7 +89,7 @@ const NewPost = ({ placeInfo, serverUser }: NewPostProps) => {
         const formData = new FormData()
         formData.append('title', titleRef.current?.value || '')
         formData.append('content', contentRef.current?.value || '')
-        formData.append('userId', user.id)
+        formData.append('userId', profile.id)
         formData.append('image', image)
 
         formData.forEach((value, key) => {
