@@ -1,7 +1,6 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { getUser } from "./supabase-GetUser";
 import useStore from "../../store";
 
 // 認証コンテキストの型
@@ -41,7 +40,6 @@ export function AuthProvider({ children, user, profile }: { children: React.Reac
   export function useAuth() {
     return useContext(AuthContext);
 }
-  
 //   export default function Layout({ children }: { children: React.ReactNode }) {
 //     return (
 //       <AuthProvider>

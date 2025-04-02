@@ -23,6 +23,7 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
     const { profile, setProfile } = useStore()
     const titleRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLTextAreaElement>(null)
+    const addressRef = useRef<HTMLInputElement>(null)
 
     // const searchParams = useSearchParams();
     // const initialAddress = searchParams.get("address") || "";
@@ -88,6 +89,7 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
 
         const formData = new FormData()
         formData.append('title', titleRef.current?.value || '')
+        formData.append('address', addressRef.current?.value || '')
         formData.append('content', contentRef.current?.value || '')
         formData.append('userId', profile.id)
         formData.append('image', image)
@@ -107,13 +109,13 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
 
             if (response.ok) {
                 // 成功時、トップページに遷移
-                router.push('/')
+                router.push('/user')
                 router.refresh()
             } else {
                 alert(data.message || 'Post creation failed')
             }
         } catch (error) {
-            console.error("Error:", error); // 追加
+            console.error("Error:", error);
             alert('Something went wrong')
         }
 
@@ -140,6 +142,7 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
                     <input
                      className="w-full bg-gray-100 rounded border py-1 px-3 outline-none focus:bg-transparent focus:ring-2 focus:ring-yellow-500"
                      value={address}
+                     ref={addressRef}
                      type='text'
                      id='address'
                      onChange={(e)=> setAddress(e.target.value)}

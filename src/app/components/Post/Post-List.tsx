@@ -47,10 +47,9 @@ const PostList = async() => {
   const { data: postsData, error } = await supabase
     .from("posts")
     .select(`
-        id, created_at, title, content, user_id, image_url,
-        profiles ( name )
+        id, created_at, title, address, content, user_id, image_url, profiles(name)
       `)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
 
   console.log("postsData:", postsData);
   console.log("error:", error);
@@ -75,6 +74,7 @@ const PostList = async() => {
           id={post.id}
           created_at={post.created_at}
           title={post.title}
+          address={post.address}
           content={post.content}
           user_id={post.user_id}
           image_url={post.image_url}

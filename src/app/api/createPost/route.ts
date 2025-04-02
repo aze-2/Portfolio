@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
         });
         
         const title = formData.get('title') as string;
+        const address = formData.get('address') as string;
         const content = formData.get('content') as string;
         const userId = formData.get('userId') as string;
         const image = formData.get('image') as File;
@@ -54,6 +55,7 @@ export async function POST(req: NextRequest) {
             .from('posts')
             .insert({
                 title,
+                address,
                 content,
                 image_url: urlData.publicUrl,
                 user_id: userId,
