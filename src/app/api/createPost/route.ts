@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
         const content = formData.get('content') as string;
         const userId = formData.get('userId') as string;
         const image = formData.get('image') as File;
+        const lat = formData.get('lat') as string;
+        const lng = formData.get('lng') as string;
 
         if (!title || !content || !userId || !image) {
             return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
@@ -59,6 +61,8 @@ export async function POST(req: NextRequest) {
                 content,
                 image_url: urlData.publicUrl,
                 user_id: userId,
+                lat, // ← 追加
+                lng, // ← 追加
             });
 
         if (insertError) {

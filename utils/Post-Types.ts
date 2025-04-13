@@ -7,4 +7,6 @@ export interface PostType {
     user_id: string;
     image_url: string;
     name?: string;
+    lat?: number;
+    lng?: number;
   }

@@ -19,6 +19,8 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
     const [image, setImage] = useState<File | null>(null)
     const [placeData, setPlaceData] = useState<PlaceInfoType | null>(null);
     const [address, setAddress] = useState<string>('');
+    const [lat, setLat] = useState<string | null>(null);
+    const [lng, setLng] = useState<string | null>(null);
     const router = useRouter()
     const { profile, setProfile } = useStore()
     const titleRef = useRef<HTMLInputElement>(null)
@@ -41,32 +43,23 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
     if (!profile) return <div>Loading...</div>
 
     const searchParams = useSearchParams();
+    const data = searchParams.get("data");
+    const latParam = searchParams.get("lat");
+    const lngParam = searchParams.get("lng");
 
-    useEffect(()=> {
-    //     const handleSetPlaceData = (info: PlaceInfoType) => {
-    //         setPlaceData(info);
-    //         const addressField = info.data.find((field: any) => field === 'formatted_address');
-    //         console.log("addressField:", addressField); // デバッグ用
-    //         // setAddress(info.data.find((field: any) => field === 'formatted_address') || '');
-    //     return handleSetPlaceData
-    //   };
-    // },[])
-    // if (placeData) {
-    //     const addressField = placeData.data?.find(field => typeof field === "string") ?? "";
-    //     setAddress(addressField);
-    //   }
-    const id = searchParams.get("id");
-    const data = searchParams.get("data")/*?.split(",") || []*/;
+    useEffect(() => {
+        if (latParam && lngParam) {
+            setLat(latParam);
+            setLng(lngParam);
+          }
+        if (data) setAddress(data);
+    }, [data,latParam,lngParam]);
+    // useEffect(()=> {
+    // const id = searchParams.get("id");
+    // const data = searchParams.get("data")/*?.split(",") || []*/;
 
-    // const formattedAddress = data.find(item => item.includes("formatted_address")) ?? "";
-
-    setAddress(data || '')
-    },[]);
-    //   if (placeInfo && placeInfo.data) {
-    //     setAddress(placeInfo.data[0] ?? ""); // 最初の要素を住所としてセット
-    //   }
-    // }, [placeInfo]);
-
+    // setAddress(data || '')
+    // },[]);
 
     // 画像のアップロード処理
     const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,6 +86,9 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
         formData.append('content', contentRef.current?.value || '')
         formData.append('userId', profile.id)
         formData.append('image', image)
+
+        if (lat) formData.append("lat", lat);
+        if (lng) formData.append("lng", lng);
 
         formData.forEach((value, key) => {
             console.log(`${key}: ${value}`);

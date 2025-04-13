@@ -2,6 +2,8 @@ import React from 'react'
 import { createClient } from '../../../../utils/supabase/server'
 import { notFound } from 'next/navigation'
 import PostItem from './Post-Item'
+import PostListMap from '../Map/PostListMap';
+import Link from 'next/link';
 
 const PostList = async() => {
     const supabase = await createClient()
@@ -67,6 +69,8 @@ const PostList = async() => {
 //   if (!postsData || error) return notFound();
 
   return (
+    <>
+    <Link href={'/post/postListMap'}>マップ表示</Link>
     <div className="grid grid-cols-3 gap-5">
       {postsData.map((post) => (
         <PostItem
@@ -83,6 +87,7 @@ const PostList = async() => {
         />
       ))}
     </div>
+    </>
   );
 };
 export default PostList

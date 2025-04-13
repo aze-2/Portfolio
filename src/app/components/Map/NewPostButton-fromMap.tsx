@@ -38,6 +38,8 @@ const NewPostButtonFromMap = ({ placeInfo }: NewPostButtonFromMapProps) => {
      // placeInfoをURLクエリとして渡す
     const query = new URLSearchParams({
         id: placeInfo.Id ?? "", 
+        lat: placeInfo.Lat?.toString() ?? "",
+        lng: placeInfo.Lng?.toString() ?? "",
         data: placeInfo.data?.join(",") ?? "" // 配列をカンマ区切りで渡す
     }).toString();
 
