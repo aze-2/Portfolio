@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import useStore from "../../store";
+import NavigationBar from "./components/layout/Navigation";
 
 // 認証コンテキストの型
 type AuthContextType = {
@@ -32,6 +33,7 @@ export function AuthProvider({ children, user, profile }: { children: React.Reac
 
     return (
         <AuthContext.Provider value={{user: userState, profile: profileState }}>
+          <NavigationBar />
             {children}
         </AuthContext.Provider>
     )
@@ -40,30 +42,3 @@ export function AuthProvider({ children, user, profile }: { children: React.Reac
   export function useAuth() {
     return useContext(AuthContext);
 }
-//   export default function Layout({ children }: { children: React.ReactNode }) {
-//     return (
-//       <AuthProvider>
-//         <main>{children}</main>
-//       </AuthProvider>
-//     );
-//   }
-
-// export function AuthProvider({ children, serverData }: { children: React.ReactNode; serverData: any | null }) {
-//     const [user, setUser] = useState<any | null>(null); 
-
-//     useEffect(() => {
-//         // クライアント側でも user を更新できるようにする（例: Supabase のリアルタイムリスナー）
-//         const fetchUser = async () => {
-//             setUser(serverData.user); // `user` を更新
-//         };
-//         fetchUser();
-//     }, []);
-
-//     console.log(user)
-
-//     return (
-//         <AuthContext.Provider value={{ user }}>
-//             {children}
-//         </AuthContext.Provider>
-//     );
-// }

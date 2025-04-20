@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./supabase-AuthProvider";
 import { getUser } from "./supabase-GetUser";
+import Providers from "./chakraProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,13 +29,21 @@ export default async function RootLayout({
       console.log(user, profile)
   
   return (
-    <html lang="ja">
+    <html suppressHydrationWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Providers>
         <AuthProvider user={user} profile={profile}>
           {children}
         </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

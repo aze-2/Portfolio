@@ -355,7 +355,7 @@ const Profile = () => {
 
   const logout = async () => {
     setLoadingLogout(true)
-    await signOut
+    await signOut()
     router.push('/')
     setLoadingLogout(false)
   }

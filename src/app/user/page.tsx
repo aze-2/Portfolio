@@ -5,7 +5,7 @@ import PostList from '../components/Post/Post-List'
 import { Suspense } from 'react'
 
 
-export default async function PrivatePage() {
+export default async function PrivatePage(profile) {
   const supabase = await createClient()
 
   const { data, error } = await supabase.auth.getUser()
@@ -15,7 +15,7 @@ export default async function PrivatePage() {
 
   return (
     <div>
-      <p>Hello {data.user.email}</p>
+      <p>{profile.name} {data.user.email}</p>
       <Link href='/post/newPost'>新規投稿</Link>
       <Link href='/map'>地図</Link>
         {await PostList()}

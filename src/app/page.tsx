@@ -1,25 +1,26 @@
-'use client'
 
-import Link from "next/link";
-import { useContext } from "react";
-import { AuthContext } from "./supabase-AuthProvider";
+import PostList from "./components/Post-AllUsers/Post-List";
 
-export default function Home({ userState }: { userState: any }) {
-  // const supabase = await createClient()
-  // const { data } = await supabase.auth.getUser()
-  console.log("userState:", userState); // 確認用ログ
-  const { user } = useContext(AuthContext);
+export default async function Home(/*{ userState }: { userState: any }*/) {
+  // const { user } = useContext(AuthContext);
 
+  // return (
+  //   <div>
+  //     {user ? (
+  //       <div>
+  //         ログイン済み <Link href='/post/newPost'>新規投稿</Link>      <Link href='/map'>地図</Link>
+
+  //       </div>
+  //     ) : (
+  //       <div>未ログイン <Link href='/login' className="text-blue-300">ログインページへ</Link></div>
+  //     )}
+  //   </div>
+  // );
   return (
     <div>
-      {user ? (
-        <div>
-          ログイン済み <Link href='/post/newPost'>新規投稿</Link>      <Link href='/map'>地図</Link>
-
-        </div>
-      ) : (
-        <div>未ログイン <Link href='/login' className="text-blue-300">ログインページへ</Link></div>
-      )}
+      <p>身近な場所を知る・見つける・記録する</p>
+        <PostList />
     </div>
-  );
+  )
+
 }

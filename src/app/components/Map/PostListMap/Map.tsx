@@ -3,12 +3,14 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { PostType } from '../../../../../utils/Post-Types'
+import ReactDOMServer from 'react-dom/server';
+import { FaUser } from 'react-icons/fa';
 
 type Props = {
   posts: PostType[]
 }
 
-export default function PostMap({ posts }: Props) {
+export default function Map({ posts }: Props) {
   const mapRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<google.maps.Map | null>(null)
 
@@ -18,7 +20,7 @@ export default function PostMap({ posts }: Props) {
     const initMap = new google.maps.Map(mapRef.current, {
       center: { lat: 35.681236, lng: 139.767125 }, // 初期位置（東京駅）
       zoom: 13,
-      mapId: 'DEMO_MAP_ID'
+      mapId: '98eb796fb7d7ee76'
     })
 
     setMap(initMap)
@@ -35,11 +37,37 @@ export default function PostMap({ posts }: Props) {
         if (post.lat && post.lng) {
           const position = new google.maps.LatLng(post.lat, post.lng)
 
+          // const marker = new AdvancedMarkerElement({
+          //   map,
+          //   position,
+          //   title: post.title,
+          // })
+          console.log(post.profiles?.avatar_url)
+          const icon = document.createElement('div');
+          if(post.profiles?.avatar_url){
+            // icon.innerHTML = `<img src="${post.profiles.avatar_url}" style="width: 32px; height: 32px; border-radius: 50%; />` ;
+            const img = document.createElement('img');
+            img.src = post.profiles.avatar_url;
+            img.style.width = '18px';
+            img.style.height = '18px';
+            img.style.borderRadius = '50%';
+            icon.appendChild(img);
+            }
+            else{
+              const HTML = ReactDOMServer.renderToString(<FaUser size={18} />);
+              icon.innerHTML = HTML;
+            }
+          const faPin = new google.maps.marker.PinElement({
+            glyph: icon,
+            background: '#fff',
+            borderColor: '#3f3f3f',
+          });
           const marker = new AdvancedMarkerElement({
             map,
             position,
             title: post.title,
-          })
+            content: faPin.element,
+          });
 
           bounds.extend(position)
         }

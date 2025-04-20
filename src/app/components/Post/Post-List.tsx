@@ -2,10 +2,12 @@ import React from 'react'
 import { createClient } from '../../../../utils/supabase/server'
 import { notFound } from 'next/navigation'
 import PostItem from './Post-Item'
-import PostListMap from '../Map/PostListMap';
+import PostListMap from '../Map/PostListMap/PostListMap';
 import Link from 'next/link';
+import { getUser } from '@/app/supabase-GetUser';
 
 const PostList = async() => {
+    const { user, profile } = await getUser()
     const supabase = await createClient()
 
 //     const { data: postsData } = await supabase
@@ -51,6 +53,7 @@ const PostList = async() => {
     .select(`
         id, created_at, title, address, content, user_id, image_url, profiles(name)
       `)
+    .eq("user_id", user.id)
     .order("created_at", { ascending: false })
 
   console.log("postsData:", postsData);

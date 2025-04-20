@@ -8,6 +8,14 @@ import useStore from '../../../../store';
 import DeletePostButton from './DeletePostButton';
 import EditPostButton from './EditPostButton';
 
+import { Button, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal } from "@chakra-ui/react"
+import { FaRegClock } from "react-icons/fa6";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaEllipsis } from "react-icons/fa6";
+import { FaReply } from "react-icons/fa6";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { useRouter } from 'next/navigation';
+
 type PageProps = {
     post: PostType
 }
@@ -16,6 +24,11 @@ const PostDetail = ({ post }: PageProps) => {
     const [loading, setLoading] = useState(false)
     const [myPost, setMyPost] = useState(false)
     const { profile } = useStore()
+    const router = useRouter()
+
+    const handlePageBack = () => {
+        router.back();
+    }
 
 
     // //ポスト削除
@@ -69,17 +82,13 @@ const PostDetail = ({ post }: PageProps) => {
     console.log(post)
   return (
     <div className='max-w-screen-md mx-auto'>
-        <div className='flex flex-col items-center justify-center mb-5'>
+        {/* <div className='flex flex-col items-center justify-center mb-5'> */}
             {/* <div className='mb-1'>
                 <Image />
             </div> */}
             <div className='font-bold text-gray-500'>{post.name}</div>
-            <div className='text-sm text-gray-500'>
-                {format(new Date(post.created_at), 'yyyy/MM/dd HH:mm')}
-            </div>
 
             <div className='mb-5'>
-                <div className='text-center font-bold text-3xl mb-5'>{post.title}</div>
                 <div className='mb-5'>
                     <Image
                         src={post.image_url}
@@ -89,19 +98,70 @@ const PostDetail = ({ post }: PageProps) => {
                         height={576}
                     />
                 </div>
-                <div className='leading-relaxed break-words whitespace-pre-wrap'>{post.address}</div>
+
+                <Flex justify="flex-end">
+                    <IconButton 
+                        aria-label="戻る" 
+                        title="マイページに戻る" 
+                        icon={<FaReply /> } 
+                        variant="outline" 
+                        size="xs" 
+                        onClick={handlePageBack} 
+                        mx={3}></IconButton>
+                    <Menu>
+                        <MenuButton
+                            as={IconButton}
+                            aria-label="編集"
+                            title="編集" 
+                            icon={<FaEllipsis />}
+                            variant="outline"
+                            size="xs"
+                        >
+                            メニュー
+                        </MenuButton>
+                        <MenuList minW="120px" p={1}>
+                            {myPost && (
+                            <MenuItem>
+                                <EditPostButton postId={post.id} />
+                            </MenuItem>
+                            )}
+                            {myPost && (
+                            <MenuItem>
+                                <DeletePostButton
+                                postId={post.id}
+                                userId={profile.id}
+                                imageUrl={post.image_url}
+                                />
+                            </MenuItem>
+                            )}
+                        </MenuList>
+                    </Menu>
+                </Flex>
+
+                <div className='font-bold text-2xl mb-3'>{post.title}</div>
                 <div className='leading-relaxed break-words whitespace-pre-wrap'>{post.content}</div>
+                <Flex>
+                    <div className='text-gray-500 flex items-center'>
+                        <FaRegClock size={15} />
+                    </div>
+                    <div className='text-sm text-gray-500 items-center ml-2'>
+                        {format(new Date(post.created_at), 'yyyy/MM/dd HH:mm')}
+                    </div>
+                </Flex>
+                <Flex>
+                    <div className='text-gray-500 flex items-center'>
+                        <FaLocationDot />
+                    </div>
+                    <div className='text-sm leading-relaxed break-words whitespace-pre-wrap  ml-2'>{post.address}</div>
+                </Flex>
             </div>
 
             {/* {renderButton()} */}
              {/* 自分の投稿なら削除ボタンを表示 */}
-             <div className='flex justify-content'>
-             {myPost && <EditPostButton postId={post.id}/* userId={profile.id} imageUrl={post.image_url}*/ />}
-             {myPost && <DeletePostButton postId={post.id} userId={profile.id} imageUrl={post.image_url} />}
-             </div>
+             {/* {myPost && <EditPostButton postId={post.id}/* userId={profile.id} imageUrl={post.image_url} />} */}
+             {/* {myPost && <DeletePostButton postId={post.id} userId={profile.id} imageUrl={post.image_url} />} */}
         </div>
-      
-    </div>
+    // </div>
   )
 }
 

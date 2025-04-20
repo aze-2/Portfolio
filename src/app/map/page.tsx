@@ -1,8 +1,13 @@
 "use client"
 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import NewPostButtonFromMap from "../components/Map/NewPostButton-fromMap";
+import { FaPersonWalking } from "react-icons/fa6";
+import { Box, FormControl, IconButton, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 
 //場所情報の型
 export type PlaceInfoType = {
@@ -55,7 +60,7 @@ export const GetMap = () => {
         center: position,
         gestureHandling: "greedy",
         zoom: 14,
-        mapId: 'DEMO_MAP_ID'
+        mapId: '98eb796fb7d7ee76'
       });
 
       setMap(newMap);
@@ -163,10 +168,20 @@ export const GetMap = () => {
   
     // click イベント
     marker.addListener('click', () => {
-      const content = isDragged
-        ? `<div><h3>任意の場所</h3><p>緯度: ${placeInfo.Lat}<br>経度: ${placeInfo.Lng}</p></div>`
+      const content = document.createElement("div");
+
+      const reactRoot = ReactDOM.createRoot(content);
+      reactRoot.render(
+       isDragged
+        ? `<div>
+            <h3>任意の場所</h3>
+            <p>緯度: ${placeInfo.Lat}
+            <br>経度: ${placeInfo.Lng}
+            </p>
+            <NewPostButtonFromMap placeInfo={placeInfo} />
+          </div>`
         : `<div><h3>福岡市役所</h3><p>住所: 〒810-8620 福岡県福岡市中央区天神１丁目８−１</p>
-            <a href="http://www.city.fukuoka.lg.jp/" target="_blank">ウェブサイト</a></div>`;
+            <a href="http://www.city.fukuoka.lg.jp/" target="_blank">ウェブサイト</a></div>`);
   
       infoWindow.setContent(content);
       infoWindow.open(map, marker);
@@ -349,11 +364,20 @@ export const GetMap = () => {
     async function createMarker(place) {
       const { AdvancedMarkerElement } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
       const { Place } = await google.maps.importLibrary("places") as google.maps.PlacesLibrary;
-    
+      
+      const icon = document.createElement('div');
+      icon.innerHTML = '<i class="fa-solid fa-person-walking fa-lg"></i>';
+      const faPin = new google.maps.marker.PinElement({
+        glyph: icon,
+        glyphColor: '#3f3f3f',
+        background: '#fefe01',
+        borderColor: '#3f3f3f',
+      });
       const marker = new AdvancedMarkerElement({
         map,
         position: place.location,
         title: place.displayName,
+        content: faPin.element,
       });
     
       marker.addListener("click", async () => {
@@ -374,27 +398,38 @@ export const GetMap = () => {
             console.error("Place details fetch failed", status);
             return;
           }
-    
-          const content = `
-            <div>
-              <h3>${placeDetails.name ?? "不明"}</h3>
-              <p>住所: ${placeDetails.formatted_address ?? "不明"}</p>
-              <p>評価: ${placeDetails.rating ?? "なし"}</p>
-            </div>
-          `;
-          infoWindow.setContent(content);
-          infoWindow.open({ map, anchor: marker });
 
-          const onPlaceInfoSet = (info: PlaceInfoType) => {
-            setPlaceInfo(info); // 状態更新
-          };
-          
-          onPlaceInfoSet({ Id: place.id ?? '', // place.place_id ではなく place.id を使ってるので注意
+          const info: PlaceInfoType = {
+            Id: place.id ?? '',
             Lat: place.location?.lat?.() ?? 0,
             Lng: place.location?.lng?.() ?? 0,
-            data: placeDetails.formatted_address ? [placeDetails.formatted_address] : [], });
-            
+            data: placeDetails.formatted_address ? [placeDetails.formatted_address] : [],
+          };
+          
+          setPlaceInfo(info); // 状態更新（下のボタンに反映される）
+          
+          // const onPlaceInfoSet = (info: PlaceInfoType) => {
+          //   setPlaceInfo(info); // 状態更新
+          // };
+          
+          // onPlaceInfoSet({ Id: place.id ?? '', // place.place_id ではなく place.id を使ってるので注意
+          //   Lat: place.location?.lat?.() ?? 0,
+          //   Lng: place.location?.lng?.() ?? 0,
+          //   data: placeDetails.formatted_address ? [placeDetails.formatted_address] : [], });
 
+          const content = document.createElement("div");
+
+          const reactRoot = ReactDOM.createRoot(content);
+          reactRoot.render(
+            <div>
+              <h3>{placeDetails.name ?? "不明"}</h3>
+              <p>住所: {placeDetails.formatted_address ?? "不明"}</p>
+              <p>Google評価: {placeDetails.rating ?? "なし"}</p>
+              <NewPostButtonFromMap placeInfo={info} />
+            </div>
+          );
+          infoWindow.setContent(content);
+          infoWindow.open({ map, anchor: marker });
         });
         
         
@@ -418,15 +453,27 @@ export const GetMap = () => {
   }
 
   return (
-    <>
-      <div ref={mapElement} style={{ width: "80vw", height: "80vh" }} />
-      <form onSubmit={submit} className="mt-4">
-        <input type="text" name="address" className="mr-2" />
-        <button className="px-2 rounded-full bg-green-200 hover:bg-green-300">検索</button>
+    <Box maxW="container.lg" mx="auto">
+      <form onSubmit={submit}>
+        <InputGroup my={5}>
+          <InputLeftElement>
+            <IconButton type='submit' aria-label='Search database' icon={<SearchIcon />} color="gray.400" />
+          </InputLeftElement>
+          <Input name='address' placeholder="キーワードで検索" rounded="full" bg="gray.100" />
+        </InputGroup>
       </form>
-      {/* <Link href='/post/newPost'>新規投稿</Link> */}
+      <Box ref={mapElement} h='3xl' ></Box>
       <NewPostButtonFromMap placeInfo={placeInfo} />
-    </>
+    </Box>
+    // <>
+    //   <div ref={mapElement} style={{ width: "80vw", height: "80vh" }} />
+    //   <form onSubmit={submit} className="mt-4">
+    //     <input type="text" name="address" className="mr-2" />
+    //     <button className="px-2 rounded-full bg-green-200 hover:bg-green-300">検索</button>
+    //   </form>
+    //   {/* <Link href='/post/newPost'>新規投稿</Link> */}
+    //   <NewPostButtonFromMap placeInfo={placeInfo} />
+    // </>
   );
 };
 
@@ -459,6 +506,7 @@ export default function MyMap() {
   return (
     <>
     <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+     libraries={["places", "marker", "geometry"]}
      render={render} />
      <GetMap />
      {/* <NewPost placeInfo={placeInfo} />; // Supabase への追加はNewPost */}

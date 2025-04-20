@@ -2,8 +2,8 @@
 'use client'
 
 import { Status, Wrapper } from '@googlemaps/react-wrapper'
-import { PostType } from '../../../../utils/Post-Types'
-import PostMap from './PostListMap/PostMap'
+import { PostType } from '../../../../../utils/Post-Types'
+import Map from './Map'
 
 type Props = {
   posts: PostType[]
@@ -30,7 +30,7 @@ export default function PostListMap({ posts }: Props) {
         libraries={['places', 'marker', 'geometry']}
         render={render}
       >
-        <PostMap posts={posts} />
+        <Map posts={posts} />
       </Wrapper>
     </div>
   )
