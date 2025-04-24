@@ -62,12 +62,13 @@ export default function Map({ posts }: Props) {
             background: '#fff',
             borderColor: '#3f3f3f',
           });
-          const _marker = new AdvancedMarkerElement({
+          const marker = new AdvancedMarkerElement({
             map,
             position,
             title: post.title,
             content: faPin.element,
           });
+          console.log(marker)
 
           bounds.extend(position)
         }

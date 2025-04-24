@@ -34,6 +34,7 @@ const DeletePostButton = ({ postId, userId, imageUrl }: DeletePostButtonProps) =
             router.push('/user');
             router.refresh();
         } catch (error) {
+            console.error(error)
             alert('エラーが発生しました');
         } finally {
             setLoading(false);

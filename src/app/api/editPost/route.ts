@@ -65,6 +65,7 @@ export async function Edit(req: NextRequest) {
         return NextResponse.json({ message: 'Post edit successfully' }, { status: 200 });
 
     } catch (error) {
+        console.error(error)
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

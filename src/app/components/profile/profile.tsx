@@ -41,12 +41,6 @@ const Profile = () => {
     resolver: zodResolver(schema),
   })
 
-  if (!user) {
-    return <div className="text-center mt-10">プロフィールを読み込み中...</div>
-  }
-
-  console.log({profile})
-
   useEffect(() => {
     if (profile) {
         setAvatarUrl(profile.avatar_url || '')
@@ -58,6 +52,10 @@ const Profile = () => {
   const onUploadImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     setFileMessage('')
+
+  if (!user) {
+    return <div className="text-center mt-10">プロフィールを読み込み中...</div>
+  }
 
     if (!files || files.length === 0) {
       setFileMessage('画像をアップロードしてください')

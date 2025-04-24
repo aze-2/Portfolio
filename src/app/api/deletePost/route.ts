@@ -29,6 +29,7 @@ export async function DELETE(req: NextRequest) {
         return NextResponse.json({ message: 'Post deleted successfully' }, { status: 200 });
 
     } catch (error) {
+        console.error(error)
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

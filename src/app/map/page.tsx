@@ -362,7 +362,6 @@ export const GetMap = () => {
 
     async function createMarker(place) {
       const { AdvancedMarkerElement } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
-      const { Place } = await google.maps.importLibrary("places") as google.maps.PlacesLibrary;
       
       const icon = document.createElement('div');
       icon.innerHTML = '<i class="fa-solid fa-person-walking fa-lg"></i>';

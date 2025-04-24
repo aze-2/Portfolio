@@ -51,6 +51,14 @@ const NewPost = (/*{ placeInfo }: NewPostProps*/) => {
         if (data) setAddress(data);
     }, [data,latParam,lngParam]);
 
+    // 画像のアップロード処理
+    const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files
+        if (files && files.length > 0) {
+            setImage(files[0])
+        }
+    }, [])
+
     if (!profile) return <div>Loading...</div>
 
     // useEffect(()=> {
@@ -59,14 +67,6 @@ const NewPost = (/*{ placeInfo }: NewPostProps*/) => {
 
     // setAddress(data || '')
     // },[]);
-
-    // 画像のアップロード処理
-    const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files
-        if (files && files.length > 0) {
-            setImage(files[0])
-        }
-    }, [])
 
     // フォーム送信処理
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
