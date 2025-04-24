@@ -16,6 +16,7 @@ export default async function MapPage() {
 //   const validPosts = (postsData ?? []).filter((post) => post.lat && post.lng);
 
 console.log('postsData',postsData);
+console.log('error',error);
 
   return <PostListMap posts={postsData} />;
 }

@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '../../../utils/supabase/server'
 import Link from 'next/link'
 import PostList from '../components/Post/Post-List'
-import { Suspense } from 'react'
 
 
 export default async function PrivatePage(profile) {

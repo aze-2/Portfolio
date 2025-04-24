@@ -3,29 +3,28 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent, useCallback, useState, useRef, useEffect } from 'react'
 import useStore from '../../../../store'
-import { PlaceInfoType } from '@/app/map/page'
 
 // export const handlePlaceInfo = (info: PlaceInfoType, setPlaceInfo: (info: PlaceInfoType) => void) => {
 //     setPlaceInfo(info); // 親コンポーネントのstate更新
 // }
 
-type NewPostProps = {
-    placeInfo?: PlaceInfoType;
-    serverUser: any; // 既存の `serverUser` を維持
-  };
+// type NewPostProps = {
+//     placeInfo?: PlaceInfoType;
+//     serverUser: any; // 既存の `serverUser` を維持
+//   };
 
-const NewPost = ({ placeInfo }: NewPostProps) => {
+const NewPost = (/*{ placeInfo }: NewPostProps*/) => {
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState<File | null>(null)
-    const [placeData, setPlaceData] = useState<PlaceInfoType | null>(null);
     const [address, setAddress] = useState<string>('');
     const [lat, setLat] = useState<string | null>(null);
     const [lng, setLng] = useState<string | null>(null);
     const router = useRouter()
-    const { profile, setProfile } = useStore()
+    const { profile } = useStore()
     const titleRef = useRef<HTMLInputElement>(null)
     const contentRef = useRef<HTMLTextAreaElement>(null)
     const addressRef = useRef<HTMLInputElement>(null)
+    const searchParams = useSearchParams();
 
     // const searchParams = useSearchParams();
     // const initialAddress = searchParams.get("address") || "";
@@ -39,10 +38,7 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
     //         router.push('/login') // 未ログインならログインページへ
     //     }
     // }, [serverUser, setUser, router])
-
-    if (!profile) return <div>Loading...</div>
-
-    const searchParams = useSearchParams();
+    console.log('profile', profile)
     const data = searchParams.get("data");
     const latParam = searchParams.get("lat");
     const lngParam = searchParams.get("lng");
@@ -54,6 +50,9 @@ const NewPost = ({ placeInfo }: NewPostProps) => {
           }
         if (data) setAddress(data);
     }, [data,latParam,lngParam]);
+
+    if (!profile) return <div>Loading...</div>
+
     // useEffect(()=> {
     // const id = searchParams.get("id");
     // const data = searchParams.get("data")/*?.split(",") || []*/;

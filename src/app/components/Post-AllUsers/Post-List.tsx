@@ -1,8 +1,6 @@
 import React from 'react'
 import { createClient } from '../../../../utils/supabase/server'
 import { notFound } from 'next/navigation'
-import PostListMap from '../Map/PostListMap/PostListMap';
-import Link from 'next/link';
 import PostItem from './Post-Item';
 
 const PostList = async() => {

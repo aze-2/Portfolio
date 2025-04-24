@@ -2,11 +2,10 @@
 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { createRoot } from 'react-dom/client';
+// import { createRoot } from 'react-dom/client';
 import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import NewPostButtonFromMap from "../components/Map/NewPostButton-fromMap";
-import { FaPersonWalking } from "react-icons/fa6";
-import { Box, FormControl, IconButton, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { Box, IconButton, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
 //場所情報の型
@@ -18,9 +17,9 @@ export type PlaceInfoType = {
 }
 
 //場所情報のPropsの型
-type GetMapProps = {
-  onPlaceInfoSet  : (info: PlaceInfoType) => void;
-}
+// type GetMapProps = {
+//   onPlaceInfoSet  : (info: PlaceInfoType) => void;
+// }
 
 export const GetMap = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -303,7 +302,7 @@ export const GetMap = () => {
 
     //Places api(textSearch) 導入
     async function textSearch(){
-      const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
+      const { Place } = await google.maps.importLibrary('places') as google.maps.PlacesLibrary;
       await google.maps.importLibrary("geometry");
       const request = {
         textQuery: searchQuery,

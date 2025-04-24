@@ -7,7 +7,7 @@ import useStore from "../../../../store"
 //新規投稿ボタン
 const NewPostButton = () => {
     const { profile } = useStore()
-    const { login, setLogin } = useState(false)
+    const [ login, setLogin ] = useState(false)
 
     //ログインしている人のみ表示
     const renderButoon = () => {
@@ -28,7 +28,7 @@ const NewPostButton = () => {
         if(profile.id) {
             setLogin(true)
         }
-    }, [profile])
+    }, [profile, setLogin])
 
     return <>{renderButoon()}</>
 

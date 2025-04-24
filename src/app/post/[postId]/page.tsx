@@ -1,6 +1,6 @@
 import React from 'react'
 import { createClient } from '../../../../utils/supabase/server'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { PostType } from '../../../../utils/Post-Types'
 import PostDetail from '@/app/components/Post/Post-Detail'
 
@@ -13,6 +13,11 @@ type PageProps = {
 const PostDetailPage = async({ params }: PageProps) => {
     const supabase = await createClient()
 
+    const { data, error } = await supabase.auth.getUser()
+      if (error || !data?.user) {
+        redirect('/login')
+      }
+
     //ポスト詳細取得
     const { data: postData } = await supabase
      .from('posts')
@@ -24,7 +29,7 @@ const PostDetailPage = async({ params }: PageProps) => {
     if(!postData) return notFound()
 
     //プロフィール取得
-    const { data: profileData  } = await supabase
+    /*const { data: profileData  } = */await supabase
      .from('profiles')
      .select()
      .eq('id', postData.user_id)

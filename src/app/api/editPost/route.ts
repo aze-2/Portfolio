@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 export async function Edit(req: NextRequest) {
     const supabase = await createClient();
 
-    const { data, error } = await supabase.auth.getUser()
+    const { data } = await supabase.auth.getUser()
     console.log(data)
 
     try {
@@ -30,7 +30,7 @@ export async function Edit(req: NextRequest) {
         }
         
         // 画像アップロード
-        const { data: storageData, error: storageError } = await supabase.storage
+        const { data: storageData } = await supabase.storage
             .from('posts')
             .upload(`${userId}/${uuidv4()}`, image);
         

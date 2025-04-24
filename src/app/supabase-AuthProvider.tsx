@@ -4,17 +4,27 @@ import { createContext, useContext, useEffect, useState } from "react";
 import useStore from "../../store";
 import NavigationBar from "./components/layout/Navigation";
 
+type User = {
+  id: string;
+  email: string;
+}
+
+type Profile = {
+  name: string;
+  introduce: string;
+}
+
 // 認証コンテキストの型
 type AuthContextType = {
-    user: any | null;
-    profile: any | null;
+    user: User | null;
+    profile: Profile | null;
 };
 
 export const AuthContext = createContext<AuthContextType>({ user: null, profile: null });
 
-export function AuthProvider({ children, user, profile }: { children: React.ReactNode; user: any | null, profile: any | null }) {
-    const [userState, setUserState] = useState<any | null>(user);
-    const [profileState, setProfileState] = useState<any | null>(profile);
+export function AuthProvider({ children, user, profile }: { children: React.ReactNode; user: User | null, profile: Profile | null }) {
+    const [userState, setUserState] = useState<User | null>(user);
+    const [profileState, setProfileState] = useState<Profile | null>(profile);
     const { setProfile } = useStore()
 
     useEffect(() => {

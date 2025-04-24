@@ -19,9 +19,9 @@ const PostEdit = ({ post }: PageProps) => {
     const [image, setImage] = useState<File>(null)
     const [loading, setLoading] = useState(false)
     const [myPost, setMyPost] = useState(false)
-    const titleRef = useRef<HTMLInputElement>(null)
-    const addressRef = useRef<HTMLInputElement>(null)
-    const contentRef = useRef<HTMLTextAreaElement>(null)
+    // const titleRef = useRef<HTMLInputElement>(null)
+    // const addressRef = useRef<HTMLInputElement>(null)
+    // const contentRef = useRef<HTMLTextAreaElement>(null)
     
     useEffect(() => {
         //自分が投稿したポストチェック
@@ -34,7 +34,7 @@ const PostEdit = ({ post }: PageProps) => {
             setContent(post.content)
             setMyPost(true)
         }
-    },[])
+    },[post.user_id, post.title, post.address, post.content, profile.id, router])
 
     //画像アップロード
     const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,6 +127,10 @@ const PostEdit = ({ post }: PageProps) => {
             body: JSON.stringify({ title, address, image, content })
         })
 
+        if (!response.ok) {
+            throw new Error('Failed to update post');
+        }
+        
         router.push('/user')
 
     } catch(error) {

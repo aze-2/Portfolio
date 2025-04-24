@@ -62,7 +62,7 @@ export default function Map({ posts }: Props) {
             background: '#fff',
             borderColor: '#3f3f3f',
           });
-          const marker = new AdvancedMarkerElement({
+          const _marker = new AdvancedMarkerElement({
             map,
             position,
             title: post.title,

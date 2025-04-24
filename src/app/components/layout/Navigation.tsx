@@ -4,9 +4,6 @@ import {
   Box,
   Flex,
   IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Avatar,
   Menu,
   MenuButton,
@@ -29,20 +26,11 @@ import {
 import {
   InfoIcon,
   HamburgerIcon,
-  SearchIcon,
   UnlockIcon,
-  UserIcon,
 } from "@chakra-ui/icons"
 import NextLink from "next/link"
-import { useState } from "react"
 import { useAuth } from "@/app/supabase-AuthProvider"
 import useStore from "../../../../store"
-
-interface UserType {
-  isLoggedIn: boolean
-  name: string
-  image?: string
-}
 
 export default function NavigationBar() {
     const { user } = useAuth();

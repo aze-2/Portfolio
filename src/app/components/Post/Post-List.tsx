@@ -2,12 +2,11 @@ import React from 'react'
 import { createClient } from '../../../../utils/supabase/server'
 import { notFound } from 'next/navigation'
 import PostItem from './Post-Item'
-import PostListMap from '../Map/PostListMap/PostListMap';
 import Link from 'next/link';
 import { getUser } from '@/app/supabase-GetUser';
 
 const PostList = async() => {
-    const { user, profile } = await getUser()
+    const { user } = await getUser()
     const supabase = await createClient()
 
 //     const { data: postsData } = await supabase

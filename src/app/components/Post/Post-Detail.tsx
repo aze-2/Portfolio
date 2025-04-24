@@ -8,12 +8,11 @@ import useStore from '../../../../store';
 import DeletePostButton from './DeletePostButton';
 import EditPostButton from './EditPostButton';
 
-import { Button, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Portal } from "@chakra-ui/react"
+import { Flex, IconButton, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import { FaRegClock } from "react-icons/fa6";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaEllipsis } from "react-icons/fa6";
 import { FaReply } from "react-icons/fa6";
-import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { useRouter } from 'next/navigation';
 
 type PageProps = {
@@ -21,7 +20,7 @@ type PageProps = {
 }
 
 const PostDetail = ({ post }: PageProps) => {
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const [myPost, setMyPost] = useState(false)
     const { profile } = useStore()
     const router = useRouter()
@@ -57,28 +56,28 @@ const PostDetail = ({ post }: PageProps) => {
     // }
 
     //自分のポストのみボタン表示
-    const renderButton = () => {
-        if(myPost)　{
-            return (
-                <div className='flex justify-end'>
-                    {loading ? (
-                        <p>少々お待ちください・・・</p>
-                    ) : (
-                        <div className='flex items-center space-x-5'>
-                            {/* <Link href={`post/&{post.id}/edit`}>編集</Link> */}
-                            <div className='cursor-pointer' onClick={deletePost}>削除</div>
-                        </div>
-                    )}
-                </div>
-            )
-        }
-    }
+    // const renderButton = () => {
+    //     if(myPost)　{
+    //         return (
+    //             <div className='flex justify-end'>
+    //                 {loading ? (
+    //                     <p>少々お待ちください・・・</p>
+    //                 ) : (
+    //                     <div className='flex items-center space-x-5'>
+    //                         {/* <Link href={`post/&{post.id}/edit`}>編集</Link> */}
+    //                         <div className='cursor-pointer' onClick={deletePost}>削除</div>
+    //                     </div>
+    //                 )}
+    //             </div>
+    //         )
+    //     }
+    // }
 
     useEffect(() => {
         if (profile.id === post.user_id) {
             setMyPost(true)
         }
-    }, [profile])
+    }, [profile.id, post.user_id])
     console.log(post)
   return (
     <div className='max-w-screen-md mx-auto'>

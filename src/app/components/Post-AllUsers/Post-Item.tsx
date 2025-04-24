@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { PostType } from '../../../../utils/Post-Types';
 
-const PostItem: React.FC<PostType>  = ({ id, created_at, title, address, content, user_id, image_url, name }) => {
+const PostItem: React.FC<PostType>  = ({ id, created_at, title, content, image_url, name }) => {
     // const MAX_LENGTH = 20
     // let content = post.replace(/\r?n/g, '')
 

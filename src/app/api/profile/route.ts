@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
 
-    const { name, introduce, avatar_url } = body
+    const { name, introduce } = body
   
     const { error: upDataerror } = await supabase
       .from('profiles')
