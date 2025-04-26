@@ -109,22 +109,26 @@ const PostEdit = ({ post }: PageProps) => {
         return
     }
 
-    // const formData = new FormData()
-    // formData.append('title', titleRef.current?.value || '')
-    // formData.append('title', addressRef.current?.value || '')
-    // formData.append('content', contentRef.current?.value || '')
-    // formData.append('userId', profile.id)
-    // formData.append('image', image)
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('address', address)
+    formData.append('content', content)
+    formData.append('userId', profile.id)
+    if (image) {
+        formData.append('image', image)
+    }
+    formData.append('imageUrl', post.image_url)
+    formData.append('postId', post.id)
 
-    // formData.forEach((value, key) => {
-    //     console.log(`${key}: ${value}`);
-    // })q@
-    console.log(title,address,image,content)
+
+    formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+    })
 
     try {
         const response = await fetch('/api/editPost', {
-            method: 'EDiT',
-            body: JSON.stringify({ title, address, image, content })
+            method: 'PUT',
+            body: formData,
         })
 
         if (!response.ok) {
