@@ -9,9 +9,9 @@ import PostEdit from '@/app/components/Post/Post-Edit'
 //     }>;
 // }
 
-export default async function PostEditPage({ params } : { params : { postId: string } }) {
+export default async function PostEditPage({ params } : { params : Promise<{ postId: string }> }) {
     const supabase = await createClient()
-    const { postId } = params;
+    const { postId } = await params;
 
         //ブログ詳細取得
         const { data: post, error } = await supabase
