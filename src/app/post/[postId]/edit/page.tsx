@@ -3,13 +3,13 @@ import { createClient } from '../../../../../utils/supabase/server'
 import { notFound } from 'next/navigation'
 import PostEdit from '@/app/components/Post/Post-Edit'
 
-type Props = {
-    params: {
-        postId: string
-    }
-}
+// type Props = {
+//     params: {
+//         postId: string
+//     }
+// }
 
-export default async function PostEditPage({ params }: Props) {
+export default async function PostEditPage({ params }: { params: { postId: string } }) {
     const supabase = await createClient()
 
         //ブログ詳細取得
