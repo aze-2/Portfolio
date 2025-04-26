@@ -85,7 +85,7 @@ const PostDetail = ({ post }: PageProps) => {
             {/* <div className='mb-1'>
                 <Image />
             </div> */}
-            <div className='font-bold text-gray-500'>{post.name}</div>
+            <div className='font-bold text-gray-500'>{post.profiles?.name}</div>
 
             <div className='mb-5'>
                 <div className='mb-5'>

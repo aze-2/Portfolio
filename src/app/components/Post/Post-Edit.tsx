@@ -16,7 +16,7 @@ const PostEdit = ({ post }: PageProps) => {
     const [title, setTitle] = useState('')
     const [address, setAddress] = useState('')
     const [content, setContent] = useState('')
-    const [image, setImage] = useState<File>(null)
+    const [image, setImage] = useState<File | null>(null)
     const [loading, setLoading] = useState(false)
     const [myPost, setMyPost] = useState(false)
     // const titleRef = useRef<HTMLInputElement>(null)

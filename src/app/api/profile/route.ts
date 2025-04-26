@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       .eq('id', userData.user.id)
   
     if (upDataerror) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: upDataerror.message }, { status: 500 })
     }
   
     return NextResponse.json({ message: 'プロフィールを更新しました。' })

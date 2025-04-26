@@ -12,6 +12,7 @@ type User = {
 type Profile = {
   name: string;
   introduce: string;
+  avatar_url: string;
 }
 
 // 認証コンテキストの型

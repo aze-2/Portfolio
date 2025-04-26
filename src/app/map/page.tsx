@@ -26,6 +26,19 @@ const render = (status: Status) => {
   return <div>loading...</div>;
 };
 
+// const render = (status: Status) => {
+//   switch (status) {
+//     case Status.LOADING:
+//       return <div>loading...</div>;
+//     case Status.FAILURE:
+//       return <div>fail...</div>;
+//     case Status.SUCCESS:
+//       return <GetMap />;
+//     default:
+//       return <div>loading...</div>; // ←ここ！
+//   }
+// };
+
 export default function MyMap() {
   // const [ placeInfo, setPlaceInfo ] = useState<PlaceInfoType>(
   //   {

@@ -54,7 +54,7 @@ const DeletePostButton = ({ postId, userId, imageUrl }: DeletePostButtonProps) =
 //     );
 // };
     return (
-      <MenuItem onClick={deletePost} isDisabled={loading} color='red.500' fontSize='xs'>
+      <MenuItem as="div" onClick={deletePost} isDisabled={loading} color='red.500' fontSize='xs'>
         {loading ? <Spinner size="xs" mr={2} /> : "削除"}
       </MenuItem>
     );

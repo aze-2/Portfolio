@@ -4,14 +4,16 @@ import { notFound, redirect } from 'next/navigation'
 import { PostType } from '../../../../utils/Post-Types'
 import PostDetail from '@/app/components/Post/Post-Detail'
 
-type PageProps = {
-    params: {
-        postId: string
-    }
+type Props = {
+  params: {
+    postId: string;
+  };
 }
 
-const PostDetailPage = async({ params }: PageProps) => {
+const PostDetailPage = async({ params }: Props) => {
+  // const { params } = props;
     const supabase = await createClient()
+    const { postId } = params;
 
     const { data, error } = await supabase.auth.getUser()
       if (error || !data?.user) {
@@ -22,7 +24,7 @@ const PostDetailPage = async({ params }: PageProps) => {
     const { data: postData } = await supabase
      .from('posts')
      .select('*')
-     .eq('id', params.postId)
+     .eq('id', postId)
      .single()
     
     //ポストがない場合
@@ -44,7 +46,10 @@ const PostDetailPage = async({ params }: PageProps) => {
         content: postData.content,
         user_id: postData.user_id,
         image_url: postData.image_url,
-        name: postData.profiles?.name,
+        profiles: {
+          name: postData.profiles?.name,
+          avatar_url: postData.profiles?.avatar_url,
+        },
     }
   return <PostDetail post={post} />
 }

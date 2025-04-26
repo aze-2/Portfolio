@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     //serverアクションを有効に、ドメイン設定
     experimental: {
       optimizePackageImports: ["@chakra-ui/react"],
-      serverActions: true,
+      // serverActions: true,
     },
     images: {
       domains: ['zwdgytsyhsiqgdnuhizz.supabase.co'],

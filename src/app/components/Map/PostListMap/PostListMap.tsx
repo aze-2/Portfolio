@@ -11,17 +11,11 @@ type Props = {
 
 export default function PostListMap({ posts }: Props) {
   const render = (status: Status) => {
-    switch (status) {
-      case Status.LOADING:
-        return <div>loading...</div>;
-      case Status.FAILURE:
-        return <div>fail...</div>;
-      case Status.SUCCESS:
-        return null;
-      default:
-        return null;
-    }
+    if (status === Status.FAILURE) return <div>fail...</div>;
+    if (status === Status.SUCCESS) return <Map posts={posts} />;
+    return <div>loading...</div>;
   };
+  
   
   return (
     <div className="mb-8">
@@ -30,7 +24,7 @@ export default function PostListMap({ posts }: Props) {
         libraries={['places', 'marker', 'geometry']}
         render={render}
       >
-        <Map posts={posts} />
+        {/* <Map posts={posts} /> */}
       </Wrapper>
     </div>
   )

@@ -17,7 +17,7 @@ const EditPostButton = ({ postId }: EditPostButtonProps) => {
   };
 
     return (
-      <MenuItem onClick={handleEdit} isDisabled={loading} fontSize='xs'>
+      <MenuItem as="div" onClick={handleEdit} isDisabled={loading} fontSize='xs'>
         {loading ? <Spinner size="sm" mr={2} /> : "編集"}
       </MenuItem>
     );

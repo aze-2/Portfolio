@@ -43,13 +43,13 @@ export async function POST(req: NextRequest) {
         }
 
         // 画像URL取得
-        const { data: urlData, error: urlError } = await supabase.storage
+        const { data: urlData } = await supabase.storage
             .from('posts')
             .getPublicUrl(storageData.path);
 
-        if (urlError) {
-            console.error('URL Error:', urlError.message); // エラーログの追加
-            return NextResponse.json({ message: urlError.message }, { status: 500 });
+        if (!urlData.publicUrl) {
+            console.error('URL Error:'); // エラーログの追加
+            return NextResponse.json({ message: 'URL Error:' }, { status: 500 });
         }
 
         // ポストデータを挿入
@@ -61,8 +61,8 @@ export async function POST(req: NextRequest) {
                 content,
                 image_url: urlData.publicUrl,
                 user_id: userId,
-                lat, // ← 追加
-                lng, // ← 追加
+                lat,
+                lng,
             });
 
         if (insertError) {
