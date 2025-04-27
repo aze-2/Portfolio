@@ -4,16 +4,22 @@ import { notFound, redirect } from 'next/navigation'
 import { PostType } from '../../../../utils/Post-Types'
 import PostDetail from '@/app/components/Post/Post-Detail'
 
-type Props = {
-  params: {
-    postId: string;
-  };
-}
+// type Props = {
+//   params: {
+//     postId: string;
+//   };
+// }
 
-const PostDetailPage = async({ params }: Props) => {
-  // const { params } = props;
+        // export default async function PostEditPage({ params } : { params : Promise<{ postId: string }> }) {
+        //     const supabase = await createClient()
+        //     const { postId } = await params;
+type Params = Promise<{ postId: string }>;
+
+export default async function PostEditPage(props: { params: Params }) {
+    const params = await props.params
     const supabase = await createClient()
-    const { postId } = params;
+    const postId = params.postId;
+
 
     const { data, error } = await supabase.auth.getUser()
       if (error || !data?.user) {
@@ -54,4 +60,5 @@ const PostDetailPage = async({ params }: Props) => {
   return <PostDetail post={post} />
 }
 
-export default PostDetailPage
+// export default PostDetailPage
+
