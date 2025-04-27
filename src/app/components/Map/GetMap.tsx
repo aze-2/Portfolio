@@ -340,7 +340,7 @@ const GetMap = () => {
         setMarkers(newMarkers);
   
         if (filteredPlaces.length > 0) {
-          map.fitBounds(bounds);
+          map!.fitBounds(bounds);
         } else {
           console.log("1km以内に該当なし");
         }
@@ -380,7 +380,7 @@ const GetMap = () => {
           fields: ['name', 'formatted_address', 'rating',],
         };
     
-        const service = new google.maps.places.PlacesService(map); // mapを渡すのがポイント
+        const service = new google.maps.places.PlacesService(map!); // mapを渡すのがポイント
     
         service.getDetails(request, (placeDetails, status) => {
           if (status !== google.maps.places.PlacesServiceStatus.OK || !placeDetails) {
