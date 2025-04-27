@@ -163,15 +163,15 @@ const GetMap = () => {
       const reactRoot = ReactDOM.createRoot(content);
       reactRoot.render(
        isDragged
-        ? `<div>
+        ? (<div>
             <h3>任意の場所</h3>
             <p>緯度: ${placeInfo.Lat}
-            <br>経度: ${placeInfo.Lng}
+            <br></br>経度: ${placeInfo.Lng}
             </p>
             <NewPostButtonFromMap placeInfo={placeInfo} />
-          </div>`
-        : `<div><h3>福岡市役所</h3><p>住所: 〒810-8620 福岡県福岡市中央区天神１丁目８−１</p>
-            <a href="http://www.city.fukuoka.lg.jp/" target="_blank">ウェブサイト</a></div>`);
+          </div>)
+        : (<div><h3>福岡市役所</h3><p>住所: 〒810-8620 福岡県福岡市中央区天神１丁目８−１</p>
+            <a href="http://www.city.fukuoka.lg.jp/" target="_blank">ウェブサイト</a></div>));
   
       infoWindow.setContent(content);
       infoWindow.open(map, marker);
@@ -351,7 +351,7 @@ const GetMap = () => {
     
     textSearch();
 
-    async function createMarker(place) {
+    async function createMarker(place: any) {
       const { AdvancedMarkerElement } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
       
       const icon = document.createElement('div');
@@ -417,8 +417,8 @@ const GetMap = () => {
               <NewPostButtonFromMap placeInfo={info} />
             </div>
           );
-          infoWindow.setContent(content);
-          infoWindow.open({ map, anchor: marker });
+          infoWindow?.setContent(content);
+          infoWindow?.open({ map, anchor: marker });
         });
         
         
