@@ -88,7 +88,7 @@ export default function NavigationBar() {
           {/* ログイン／プロフィール */}
           {user ? (
             <Menu>
-              <MenuButton as={IconButton} icon={<Avatar size="sm" name={user.name} src={profile.avatar_url!} />} variant="ghost" />
+              <MenuButton as={IconButton} icon={<Avatar size="sm" name={profile.name ?? ''} src={profile.avatar_url!} />} variant="ghost" />
               <MenuList>
               <MenuItem as={NextLink} href="/user/profile"/* icon={<UserIcon />}*/>
   プロフィール

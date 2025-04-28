@@ -351,7 +351,7 @@ const GetMap = () => {
     
     textSearch();
 
-    async function createMarker(place: any) {
+    async function createMarker(place:  google.maps.places.Place) {
       const { AdvancedMarkerElement } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
       
       const icon = document.createElement('div');
