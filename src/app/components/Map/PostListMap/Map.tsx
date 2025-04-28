@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { PostQueryType, PostType } from '../../../../../utils/Post-Types'
+import { PostQueryType } from '../../../../../utils/Post-Types'
 import ReactDOMServer from 'react-dom/server';
 import { FaUser } from 'react-icons/fa';
 
