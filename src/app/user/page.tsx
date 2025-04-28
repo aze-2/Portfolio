@@ -4,7 +4,7 @@ import Link from 'next/link'
 import PostList from '../components/Post/Post-List'
 
 
-export default async function PrivatePage(profile) {
+export default async function PrivatePage(/*profile*/) {
   const supabase = await createClient()
 
   const { data, error } = await supabase.auth.getUser()
@@ -14,7 +14,7 @@ export default async function PrivatePage(profile) {
 
   return (
     <div>
-      <p>{profile.name} {data.user.email}</p>
+      <p>{data.user.email}</p>
       <Link href='/post/newPost'>新規投稿</Link>
       <Link href='/map'>地図</Link>
         {await PostList()}
