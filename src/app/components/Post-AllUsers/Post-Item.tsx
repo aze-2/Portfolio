@@ -11,7 +11,7 @@ const PostItem: React.FC<PostType>  = ({ id, created_at, title, content, image_u
     // if(content.length > MAX_LENGTH) {
     //     content = content.substring(0, MAX_LENGTH) + '...'
     // }
-    console.log('name', name)
+    console.log('name', profiles?.name)
   return (
     <div>
       <div className='mb-5'>
