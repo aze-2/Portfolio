@@ -13,3 +13,17 @@ export type PostType = {
       avatar_url?: string;
     }
   }
+
+  export type PostQueryType = {
+    id: string;
+    created_at: string;
+    title: string;
+    address: string;
+    lat?: number;
+    lng?: number;
+    user_id: string;
+    profiles?: {
+      name?: string;
+      avatar_url?: string;
+    }[];
+  }

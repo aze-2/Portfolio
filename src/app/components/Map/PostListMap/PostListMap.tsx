@@ -2,11 +2,11 @@
 'use client'
 
 import { Status, Wrapper } from '@googlemaps/react-wrapper'
-import { PostType } from '../../../../../utils/Post-Types'
+import { PostQueryType, PostType } from '../../../../../utils/Post-Types'
 import Map from './Map'
 
 type Props = {
-  posts: PostType[]
+  posts: PostQueryType[]
 }
 
 export default function PostListMap({ posts }: Props) {

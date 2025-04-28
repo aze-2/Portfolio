@@ -18,5 +18,5 @@ export default async function MapPage() {
 console.log('postsData',postsData);
 console.log('error',error);
 
-  return <PostListMap posts={postsData} />;
+  return <PostListMap posts={postsData ?? []} />;
 }

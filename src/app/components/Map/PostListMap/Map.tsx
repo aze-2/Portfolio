@@ -2,12 +2,12 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { PostType } from '../../../../../utils/Post-Types'
+import { PostQueryType, PostType } from '../../../../../utils/Post-Types'
 import ReactDOMServer from 'react-dom/server';
 import { FaUser } from 'react-icons/fa';
 
 type Props = {
-  posts: PostType[]
+  posts: PostQueryType[]
 }
 
 export default function Map({ posts }: Props) {
@@ -42,12 +42,11 @@ export default function Map({ posts }: Props) {
           //   position,
           //   title: post.title,
           // })
-          console.log(post.profiles?.avatar_url)
           const icon = document.createElement('div');
-          if(post.profiles?.avatar_url){
+          if(post.profiles?.[0]?.avatar_url){
             // icon.innerHTML = `<img src="${post.profiles.avatar_url}" style="width: 32px; height: 32px; border-radius: 50%; />` ;
             const img = document.createElement('img');
-            img.src = post.profiles.avatar_url;
+            img.src = post.profiles[0].avatar_url;
             img.style.width = '18px';
             img.style.height = '18px';
             img.style.borderRadius = '50%';
