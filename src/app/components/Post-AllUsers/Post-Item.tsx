@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { PostType } from '../../../../utils/Post-Types';
 
-const PostItem: React.FC<PostType>  = ({ id, created_at, title, content, image_url, name }) => {
+const PostItem: React.FC<PostType>  = ({ id, created_at, title, content, image_url, profiles }) => {
     // const MAX_LENGTH = 20
     // let content = post.replace(/\r?n/g, '')
 
@@ -39,7 +39,7 @@ const PostItem: React.FC<PostType>  = ({ id, created_at, title, content, image_u
             height={45}
         />
       </div> */}
-      <div className='font-bold'>{name}</div>
+      <div className='font-bold'>{profiles?.name ?? ''}</div>
     </div>
   )
 }
