@@ -40,7 +40,12 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-        <AuthProvider user={user} profile={profile}>
+        <AuthProvider user={{
+           id: user?.id ?? '',
+           email: user?.email ?? '',
+          }}
+          profile={profile}
+        >
           {children}
         </AuthProvider>
         </Providers>
