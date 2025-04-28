@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import useStore from "../../../../store"
-import { PlaceInfoType } from "@/app/map/page"
+import { PlaceInfoType } from "./GetMap";
 
 type NewPostButtonFromMapProps = {
     placeInfo: PlaceInfoType;
