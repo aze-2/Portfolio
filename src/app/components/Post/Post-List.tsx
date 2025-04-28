@@ -50,9 +50,9 @@ const PostList = async() => {
   const { data: postsData, error } = await supabase
     .from("posts")
     .select(`
-        id, created_at, title, address, content, user_id, image_url, profiles(name)
+        id, created_at, title, address, content, user_id, image_url, profiles
       `)
-    .eq("user_id", user.id)
+    .eq("user_id", user?.id)
     .order("created_at", { ascending: false })
 
   console.log("postsData:", postsData);
@@ -84,7 +84,7 @@ const PostList = async() => {
           content={post.content}
           user_id={post.user_id}
           image_url={post.image_url}
-          name={post.profiles?.name} // `profiles` テーブルから取得
+          profiles={post.profiles} // `profiles` テーブルから取得
         //   avatar_url={post.profiles?.avatar_url}
         />
       ))}
