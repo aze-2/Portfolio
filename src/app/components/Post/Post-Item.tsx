@@ -2,15 +2,16 @@ import { format } from 'date-fns';
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { PostType } from '../../../../utils/Post-Types';
+import { PostTypes } from '../../../../utils/Post-Types';
 
-const PostItem: React.FC<PostType>  = ({ id, created_at, title, content, image_url, profiles }) => {
+const PostItem: React.FC<PostTypes>  = ({ id, created_at, title, content, image_url, profiles }) => {
     // const MAX_LENGTH = 20
     // let content = post.replace(/\r?n/g, '')
 
     // if(content.length > MAX_LENGTH) {
     //     content = content.substring(0, MAX_LENGTH) + '...'
     // }
+    console.log("profiles:", profiles)
   return (
     <div>
       <div className='mb-5'>
@@ -38,7 +39,7 @@ const PostItem: React.FC<PostType>  = ({ id, created_at, title, content, image_u
             height={45}
         />
       </div> */}
-      <div className='font-bold'>{profiles?.name}</div>
+      {/* <div className='font-bold'>{profiles?.name}</div> */}
     </div>
   )
 }

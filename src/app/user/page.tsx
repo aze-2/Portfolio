@@ -14,9 +14,9 @@ export default async function PrivatePage(/*profile*/) {
 
   return (
     <div>
-      <p>{data.user.email}</p>
-      <Link href='/post/newPost'>新規投稿</Link>
-      <Link href='/map'>地図</Link>
+      <p>{data.user.email}のページ</p>
+      {/* <Link href='/post/newPost'>新規投稿</Link> */}
+      <Link href='/post/postListMap'>GoogleMapで表示</Link>
         {await PostList()}
     </div>
   )

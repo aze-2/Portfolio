@@ -2,8 +2,9 @@ import React from 'react'
 import { createClient } from '../../../../utils/supabase/server'
 import { notFound } from 'next/navigation'
 import PostItem from './Post-Item'
-import Link from 'next/link';
+// import Link from 'next/link';
 import { getUser } from '@/app/supabase-GetUser';
+import { PostTypes } from '../../../../utils/Post-Types';
 
 const PostList = async() => {
     const { user } = await getUser()
@@ -47,14 +48,15 @@ const PostList = async() => {
 //   )
 // }
   // 投稿データとプロフィールを結合して取得
-  const { data: postsData, error } = await supabase
+  const { data: rawPostsData, error } = await supabase
     .from("posts")
     .select(`
-        id, created_at, title, address, content, user_id, image_url, profiles
+        id, created_at, title, address, content, user_id, image_url, profiles ( name, avatar_url )
       `)
     .eq("user_id", user?.id)
     .order("created_at", { ascending: false })
 
+  const postsData = rawPostsData as PostTypes[];
   console.log("postsData:", postsData);
   console.log("error:", error);
 
@@ -72,7 +74,7 @@ const PostList = async() => {
 
   return (
     <>
-    <Link href={'/post/postListMap'}>マップ表示</Link>
+    {/* <Link href={'/post/postListMap'}>マップ表示</Link> */}
     <div className="grid grid-cols-3 gap-5">
       {postsData.map((post) => (
         <PostItem

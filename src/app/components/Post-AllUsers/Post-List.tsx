@@ -2,18 +2,20 @@ import React from 'react'
 import { createClient } from '../../../../utils/supabase/server'
 import { notFound } from 'next/navigation'
 import PostItem from './Post-Item';
+import { PostTypes } from '../../../../utils/Post-Types';
 
 const PostList = async() => {
     const supabase = await createClient()
 
   // 投稿データとプロフィールを結合して取得
-  const { data: postsData, error } = await supabase
+  const { data: rawPostsData, error } = await supabase
     .from("posts")
     .select(`
-        id, created_at, title, address, content, user_id, image_url, profiles
+        id, created_at, title, address, content, user_id, image_url, profiles ( name, avatar_url )
       `)
     .order("created_at", { ascending: false })
 
+  const postsData = rawPostsData as PostTypes[];
   console.log("postsData:", postsData);
   console.log("error:", error);
 
