@@ -86,7 +86,7 @@ export default function NavigationBar() {
         {/* 右側: メニュー */}
         <HStack spacing={2}>
           {/* ログイン／プロフィール */}
-          {user ? (
+          {user && profile?.avatar_url?.trim() !== '' ? (
             <Menu>
               <MenuButton as={IconButton} icon={<Avatar size="sm" name={profile.name ?? ''} src={profile.avatar_url!} />} variant="ghost" />
               <MenuList>
